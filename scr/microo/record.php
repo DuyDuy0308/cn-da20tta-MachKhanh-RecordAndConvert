@@ -6,9 +6,9 @@ include("header.php");
       <div class="row d_flex">
          <div class="col-md-6">
             <div class="airmic">
-               <h1>Record</h1>
+              
                <form action="" method="post">
-                  <input type="submit" id="start" name="start" onclick="startRecording()" value="Start" class="read_more">
+                  <input type="submit" id="start" name="start" onclick="startRecording()" value="Start record" class="read_more">
                </form>
 
                <div>
@@ -26,8 +26,8 @@ include("header.php");
                </form>
                <?php
                if (isset($_POST['start'])) {
-                  echo '<div style="color: white; display: inline-block; background: #ffffff; color: #000; max-width: 200px; height: 61px; line-height: 61px; width: 100%; font-size: 17px; text-align: center; font-weight: 500; border-radius: 10px; transition: ease-in all 0.5s; margin: 10px 0px;">
-   Recording completed </div>';
+                  echo "<script>alert(' Recording completed');</script>";
+                  
                   $command = escapeshellcmd('record.py');
 
                   $output = shell_exec("python $command");
@@ -51,9 +51,8 @@ include("header.php");
          </div>
          <div class="col-md-6 change">
             <div class="airmic">
-               <h1>Convert</h1>
                <form action="" method="post">
-                  <input type="submit" id="stop" name="stop" value="Start" class="read_more">
+                  <input type="submit" id="stop" name="stop" value="Start convert" class="read_more">
                </form>
                <div id="result-container">
                   <?php
@@ -64,17 +63,41 @@ include("header.php");
                      $out = shell_exec("python $change $audioFilePath");
                      $result = json_decode($out, true);
 
-                     echo '<div id="result-container">';
+                     echo '<div id="result-container ">' ;
                      if ($result !== null) {
-                        echo "<div style='color: white; display: inline-block; background: #ffffff; color: #000; max-width: 200px; height: 61px; line-height: 61px; width: 100%; font-size: 17px; text-align: center; font-weight: 500; border-radius: 10px; transition: ease-in all 0.5s; margin: 10px 0px;'>";
+                        echo "<div style='color: white; display: inline-block; background: #ffffff; color: #000; height: 61px; line-height: 61px; width: 100%; font-size: 17px; text-align: center; font-weight: 500; border-radius: 10px; transition: ease-in all 0.5s; margin: 10px 0px;'>";
                         echo 'Text from audio: ' . $result['result'];
                         echo '</div>';
+                        echo '<form method="post" action="">';
+                        echo '<input type="hidden" name="text_to_save" value="' . htmlspecialchars($result['result']) . '">';
+                        echo '<input type="text" name="file_name" id="file_name" placeholder="File name...." required>' . '<br>';
+                        echo '<input style="font-size: 24px;" type="submit" value="Save text">';
+                        echo '</form>';
                      } else {
-                        echo '<div style="color: white; display: inline-block; background: #ffffff; color: #000; max-width: 400px; height: 61px; line-height: 61px; width: 100%; font-size: 17px; text-align: center; font-weight: 500; border-radius: 10px; transition: ease-in all 0.5s; margin: 10px 0px;">
+                        echo '<div style="color: white; display: inline-block; background: #ffffff; color: #000;  height: 61px; line-height: 61px; width: 100%; font-size: 17px; text-align: center; font-weight: 500; border-radius: 10px; transition: ease-in all 0.5s; margin: 10px 0px;">
                         No audio or the audio is too low, please try again </div>';
                      }
                      echo '</div>';
                   }
+
+                  if (isset($_POST['text_to_save'])) {
+                     $textToSave = $_POST['text_to_save'];
+                     $uploadDirectory = 'uploads/';
+                     $filename = $_POST['file_name'];
+     
+                     if (!file_exists($uploadDirectory)) {
+                         mkdir($uploadDirectory, 0777, true);
+                     }
+     
+                     $filePath = $uploadDirectory . $filename . '.txt';
+     
+                     if (file_put_contents($filePath, $textToSave)) {
+                         echo '<script>alert("Saved successfully!");</script>';
+                     } else {
+                         echo '<script>alert("Error saving the text.");</script>';
+                     }
+                 }
+
                   ?>
                </div>
             </div>

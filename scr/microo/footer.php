@@ -15,5 +15,6 @@
       <script src="js/custom.js"></script>
       <script src="js/reset.js"></script>
       <script src="js/save_audio.js"> </script>
+      <script src="plugins/dropzone/min/dropzone.min.js"></script>
    </body>
 </html>

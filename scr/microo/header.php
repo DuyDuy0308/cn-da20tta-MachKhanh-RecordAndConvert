@@ -13,6 +13,8 @@
       <link rel="stylesheet" href="css/style.css">
       <link rel="stylesheet" href="css/responsive.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="plugins/dropzone/min/dropzone.min.css" />
+      <link rel="stylesheet" href="plugins/dropzone/min/dropzone.css" />
       
    </head>
    <body class="main-layout">
@@ -23,6 +25,7 @@
          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
          <a href="index.php" onclick="resetAudio() ">Home</a>
          <a href="record.php" onclick="resetAudio()">Record</a>
+         <a href="upload.php" onclick="resetAudio()">Upload</a>
          <a href="question.php" onclick="resetAudio()">Question</a>
       </div>
       <header>
